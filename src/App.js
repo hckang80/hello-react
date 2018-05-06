@@ -2,10 +2,56 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
+  state = {
+    name: '',
+    todos: [
+      { id: 0, content: 'HTML', checked: false },
+      { id: 1, content: 'CSS', checked: true },
+      { id: 2, content: 'Javascript', checked: false },
+    ],
+  };
+
+  getMax() {
+    return Math.max(...this.generatorId()) + 1;
+  }
+
+  setValue = (e) => {
+    this.setState({
+      name: e.target.value,
+    });
+  };
+
+  generatorId() {
+    const { todos } = this.state;
+    return todos.length ? todos.map(todo => todo.id) : [0];
+  }
+
+  addTodo = (e) => {
+    if (e.key === 'Enter') {
+      const { todos } = this.state;
+      this.setState({
+        todos: [{ id: this.getMax(), content: e.target.value, checked: false }, ...todos],
+        name: '',
+      });
+    }
+  };
+
   render() {
-    const style = {
-      paddingLeft: '20px',
-    };
+    const { name } = this.state;
+    const list = this.state.todos.map(todo => (
+      <li className="list-group-item" key={todo.id}>
+        <div className="hover-anchor">
+          <a className="hover-action text-muted">
+            <span className="glyphicon glyphicon-remove-circle pull-right" />
+          </a>
+          <label className="i-checks">
+            <input type="checkbox" defaultChecked={todo.checked} />
+            <i />
+            <span>{todo.content}</span>
+          </label>
+        </div>
+      </li>
+    ));
 
     return (
       <div className="container">
@@ -16,6 +62,9 @@ class App extends Component {
               id="input-todo"
               className="form-control input-lg"
               placeholder="What needs to be done?"
+              value={name}
+              onKeyUp={this.addTodo}
+              onChange={this.setValue}
             />
             <ul className="nav nav-xs nav-pills">
               <li id="all" className="active">
@@ -28,21 +77,9 @@ class App extends Component {
                 <a>Completed</a>
               </li>
             </ul>
-            <ul id="todo-list" className="list-group">
-              {/* <li class="list-group-item">
-                <div class="hover-anchor">
-                  <a class="hover-action text-muted">
-                    <span class="glyphicon glyphicon-remove-circle pull-right" data-id="1"></span>
-                  </a>
-                  <label class="i-checks" for="1">
-                    <input type="checkbox" id="1" checked><i></i>
-                    <span>Angular</span>
-                  </label>
-                </div>
-              </li> */}
-            </ul>
+            <ul className="list-group">{list}</ul>
             <div className="col-xs-6">
-              <label className="i-checks" style={style}>
+              <label className="i-checks">
                 <input id="chk-allComplete" type="checkbox" />
                 <i />
                 <span>Mark all as complete</span>
