@@ -56,6 +56,13 @@ class App extends Component {
     });
   };
 
+  toggleCompletedAll = (completed) => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.map(todo => Object.assign({}, todo, { completed })),
+    });
+  };
+
   render() {
     const { name } = this.state;
     const list = this.state.todos.map(todo => (
@@ -70,7 +77,7 @@ class App extends Component {
           <label className="i-checks">
             <input
               type="checkbox"
-              defaultChecked={todo.completed}
+              checked={todo.completed}
               onClick={() => this.toggleCompleted(todo.id)}
             />
             <i />
@@ -107,7 +114,10 @@ class App extends Component {
             <ul className="list-group">{list}</ul>
             <div className="col-xs-6">
               <label className="i-checks">
-                <input id="chk-allComplete" type="checkbox" />
+                <input
+                  type="checkbox"
+                  onChange={e => this.toggleCompletedAll(e.target.checked)}
+                />
                 <i />
                 <span>Mark all as complete</span>
               </label>
