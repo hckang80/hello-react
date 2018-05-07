@@ -5,9 +5,9 @@ class App extends Component {
   state = {
     name: '',
     todos: [
-      { id: 0, content: 'HTML', checked: false },
-      { id: 1, content: 'CSS', checked: true },
-      { id: 2, content: 'Javascript', checked: false },
+      { id: 0, content: 'HTML', completed: false },
+      { id: 1, content: 'CSS', completed: true },
+      { id: 2, content: 'Javascript', completed: false },
     ],
   };
 
@@ -30,10 +30,17 @@ class App extends Component {
     if (e.key === 'Enter') {
       const { todos } = this.state;
       this.setState({
-        todos: [{ id: this.getMax(), content: e.target.value, checked: false }, ...todos],
+        todos: [{ id: this.getMax(), content: e.target.value, completed: false }, ...todos],
         name: '',
       });
     }
+  };
+
+  toggleCompleted = (id) => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.map(todo => (id === todo.id ? Object.assign({}, todo, { completed: !todo.completed }) : todo)),
+    });
   };
 
   render() {
@@ -45,7 +52,11 @@ class App extends Component {
             <span className="glyphicon glyphicon-remove-circle pull-right" />
           </a>
           <label className="i-checks">
-            <input type="checkbox" defaultChecked={todo.checked} />
+            <input
+              type="checkbox"
+              defaultChecked={todo.completed}
+              onClick={() => this.toggleCompleted(todo.id)}
+            />
             <i />
             <span>{todo.content}</span>
           </label>
@@ -93,6 +104,7 @@ class App extends Component {
             </div>
           </div>
         </div>
+        <pre>{JSON.stringify(this.state.todos)}</pre>
       </div>
     );
   }
