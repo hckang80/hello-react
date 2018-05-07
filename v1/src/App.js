@@ -63,6 +63,16 @@ class App extends Component {
     });
   };
 
+  completedTodosLength() {
+    const { todos } = this.state;
+    return todos.filter(todo => todo.completed).length;
+  }
+
+  leftTodosLength() {
+    const { todos } = this.state;
+    return todos.filter(todo => !todo.completed).length;
+  }
+
   render() {
     const { name } = this.state;
     const list = this.state.todos.map(todo => (
@@ -78,6 +88,7 @@ class App extends Component {
             <input
               type="checkbox"
               checked={todo.completed}
+              onChange={() => {}}
               onClick={() => this.toggleCompleted(todo.id)}
             />
             <i />
@@ -127,9 +138,9 @@ class App extends Component {
                 id="btn-removeCompletedTodos"
                 className="btn btn-default btn-xs"
               >
-                Clear completed (<span id="completedTodos">0</span>)
+                Clear completed (<span>{this.completedTodosLength()}</span>)
               </button>
-              <strong id="activeTodos" /> items left
+              <strong>{this.leftTodosLength()}</strong> items left
             </div>
           </div>
         </div>
