@@ -30,7 +30,10 @@ class App extends Component {
     if (e.key === 'Enter') {
       const { todos } = this.state;
       this.setState({
-        todos: [{ id: this.getMax(), content: e.target.value, completed: false }, ...todos],
+        todos: [
+          { id: this.getMax(), content: e.target.value, completed: false },
+          ...todos,
+        ],
         name: '',
       });
     }
@@ -39,7 +42,17 @@ class App extends Component {
   toggleCompleted = (id) => {
     const { todos } = this.state;
     this.setState({
-      todos: todos.map(todo => (id === todo.id ? Object.assign({}, todo, { completed: !todo.completed }) : todo)),
+      todos: todos.map(todo =>
+        (id === todo.id
+          ? Object.assign({}, todo, { completed: !todo.completed })
+          : todo)),
+    });
+  };
+
+  removeTodo = (id) => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.filter(todo => todo.id !== id),
     });
   };
 
@@ -49,7 +62,10 @@ class App extends Component {
       <li className="list-group-item" key={todo.id}>
         <div className="hover-anchor">
           <a className="hover-action text-muted">
-            <span className="glyphicon glyphicon-remove-circle pull-right" />
+            <span
+              className="glyphicon glyphicon-remove-circle pull-right"
+              onClick={() => this.removeTodo(todo.id)}
+            />
           </a>
           <label className="i-checks">
             <input
@@ -97,7 +113,10 @@ class App extends Component {
               </label>
             </div>
             <div className="col-xs-6 text-right">
-              <button id="btn-removeCompletedTodos" className="btn btn-default btn-xs">
+              <button
+                id="btn-removeCompletedTodos"
+                className="btn btn-default btn-xs"
+              >
                 Clear completed (<span id="completedTodos">0</span>)
               </button>
               <strong id="activeTodos" /> items left
