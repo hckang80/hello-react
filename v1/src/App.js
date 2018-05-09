@@ -140,7 +140,8 @@ class App extends Component {
               >
                 Clear completed (<span>{this.completedTodosLength()}</span>)
               </button>
-              <strong>{this.leftTodosLength()}</strong> items left
+              <strong>{this.leftTodosLength()}</strong> item
+              {this.leftTodosLength() > 1 && 's'} left
             </div>
           </div>
         </div>
