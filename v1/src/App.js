@@ -73,6 +73,14 @@ class App extends Component {
     return todos.filter(todo => !todo.completed).length;
   }
 
+  removeTodoCompleted = () => {
+    if (!this.completedTodosLength()) return;
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.filter(todo => !todo.completed),
+    });
+  };
+
   render() {
     const { name } = this.state;
     const list = this.state.todos.map(todo => (
@@ -135,8 +143,8 @@ class App extends Component {
             </div>
             <div className="col-xs-6 text-right">
               <button
-                id="btn-removeCompletedTodos"
                 className="btn btn-default btn-xs"
+                onClick={this.removeTodoCompleted}
               >
                 Clear completed (<span>{this.completedTodosLength()}</span>)
               </button>
