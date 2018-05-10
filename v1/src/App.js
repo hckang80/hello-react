@@ -9,6 +9,8 @@ class App extends Component {
       { id: 1, content: 'CSS', completed: true },
       { id: 2, content: 'Javascript', completed: false },
     ],
+    nav: ['all', 'active', 'completed'],
+    status: 'all',
   };
 
   getMax() {
@@ -81,9 +83,23 @@ class App extends Component {
     });
   };
 
+  activeChangeNav = (filter) => {
+    this.setState({
+      status: filter,
+    });
+  };
+
   render() {
+    let filterTodo;
+    if (this.state.status === 'active') {
+      filterTodo = this.state.todos.filter(todo => !todo.completed);
+    } else if (this.state.status === 'completed') {
+      filterTodo = this.state.todos.filter(todo => todo.completed);
+    } else {
+      filterTodo = this.state.todos;
+    }
     const { name } = this.state;
-    const list = this.state.todos.map(todo => (
+    const todoList = filterTodo.map(todo => (
       <li className="list-group-item" key={todo.id}>
         <div className="hover-anchor">
           <a className="hover-action text-muted">
@@ -105,6 +121,16 @@ class App extends Component {
         </div>
       </li>
     ));
+    const navList = this.state.nav.map((item, index) => (
+      <li
+        key={index}
+        id={item}
+        className={item === this.state.status ? 'active' : ''}
+        onClick={() => this.activeChangeNav(item)}
+      >
+        <a>{item}</a>
+      </li>
+    ));
 
     return (
       <div className="container">
@@ -119,18 +145,8 @@ class App extends Component {
               onKeyUp={this.addTodo}
               onChange={this.setValue}
             />
-            <ul className="nav nav-xs nav-pills">
-              <li id="all" className="active">
-                <a>All</a>
-              </li>
-              <li id="active">
-                <a>Active</a>
-              </li>
-              <li id="completed">
-                <a>Completed</a>
-              </li>
-            </ul>
-            <ul className="list-group">{list}</ul>
+            <ul className="nav nav-xs nav-pills">{navList}</ul>
+            <ul className="list-group">{todoList}</ul>
             <div className="col-xs-6">
               <label className="i-checks">
                 <input
