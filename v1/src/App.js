@@ -169,7 +169,6 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <pre>{JSON.stringify(this.state.todos)}</pre>
       </div>
     );
   }
