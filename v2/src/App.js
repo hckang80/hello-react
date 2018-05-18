@@ -3,6 +3,7 @@ import TodoListTemplate from './components/TodoListTemplate';
 import Form from './components/Form';
 import TodoItemList from './components/TodoItemList';
 import TodoNavList from './components/TodoNavList';
+import TodoAddon from './components/TodoAddon';
 
 import './App.css';
 
@@ -63,30 +64,30 @@ class App extends Component {
     });
   };
 
-  // toggleCompletedAll = (completed) => {
-  //   const { todos } = this.state;
-  //   this.setState({
-  //     todos: todos.map(todo => Object.assign({}, todo, { completed })),
-  //   });
-  // };
+  toggleCompletedAll = (completed) => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.map(todo => Object.assign({}, todo, { completed })),
+    });
+  };
 
-  // completedTodosLength() {
-  //   const { todos } = this.state;
-  //   return todos.filter(todo => todo.completed).length;
-  // }
+  completedTodosLength() {
+    const { todos } = this.state;
+    return todos.filter(todo => todo.completed).length;
+  }
 
-  // leftTodosLength() {
-  //   const { todos } = this.state;
-  //   return todos.filter(todo => !todo.completed).length;
-  // }
+  leftTodosLength() {
+    const { todos } = this.state;
+    return todos.filter(todo => !todo.completed).length;
+  }
 
-  // removeTodoCompleted = () => {
-  //   if (!this.completedTodosLength()) return;
-  //   const { todos } = this.state;
-  //   this.setState({
-  //     todos: todos.filter(todo => !todo.completed),
-  //   });
-  // };
+  removeTodoCompleted = () => {
+    if (!this.completedTodosLength()) return;
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.filter(todo => !todo.completed),
+    });
+  };
 
   activeChangeNav = (filter) => {
     this.setState({
@@ -103,6 +104,8 @@ class App extends Component {
       removeTodo,
       nav,
       activeChangeNav,
+      toggleCompletedAll,
+      removeTodoCompleted,
     } = this;
     let filterTodo;
     if (status === 'active') {
@@ -127,12 +130,14 @@ class App extends Component {
           removeTodo={removeTodo}
           filterTodo={filterTodo}
         />
+        <TodoAddon
+          toggleCompletedAll={toggleCompletedAll}
+          completedTodosLength={this.completedTodosLength()}
+          leftTodosLength={this.leftTodosLength()}
+          removeTodoCompleted={removeTodoCompleted}
+        />
       </TodoListTemplate>
     );
-    // const { name, todos, status } = this.state;
-    // const { nav } = this;
-
-    // return <TodoTemplate name={name} todos={todos} status={status} />;
   }
 }
 
