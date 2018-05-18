@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
 class TodoItem extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.completed !== nextProps.completed;
+  }
   render() {
     const {
       id, completed, content, toggleCompleted, removeTodo,
     } = this.props;
-
     return (
       <li className="list-group-item" key={id}>
         <div className="hover-anchor">
