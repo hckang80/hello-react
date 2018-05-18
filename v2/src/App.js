@@ -95,6 +95,16 @@ class App extends Component {
     });
   };
 
+  filterTodo() {
+    const { todos, status } = this.state;
+    if (status === 'active') {
+      return todos.filter(todo => !todo.completed);
+    } else if (status === 'completed') {
+      return todos.filter(todo => todo.completed);
+    }
+    return todos;
+  }
+
   render() {
     const { name, todos, status } = this.state;
     const {
@@ -107,14 +117,6 @@ class App extends Component {
       toggleCompletedAll,
       removeTodoCompleted,
     } = this;
-    let filterTodo;
-    if (status === 'active') {
-      filterTodo = todos.filter(todo => !todo.completed);
-    } else if (status === 'completed') {
-      filterTodo = todos.filter(todo => todo.completed);
-    } else {
-      filterTodo = todos;
-    }
     return (
       <TodoListTemplate
         form={<Form name={name} addTodo={addTodo} setValue={setValue} />}
@@ -128,7 +130,7 @@ class App extends Component {
           todos={todos}
           toggleCompleted={toggleCompleted}
           removeTodo={removeTodo}
-          filterTodo={filterTodo}
+          filterTodo={this.filterTodo()}
         />
         <TodoAddon
           toggleCompletedAll={toggleCompletedAll}
