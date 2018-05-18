@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TodoListTemplate from './components/TodoListTemplate';
 import Form from './components/Form';
 import TodoItemList from './components/TodoItemList';
+import TodoNavList from './components/TodoNavList';
 
 import './App.css';
 
@@ -13,9 +14,9 @@ class App extends Component {
       { id: 1, content: 'CSS', completed: true },
       { id: 2, content: 'Javascript', completed: false },
     ],
-    // status: 'all',
+    status: 'all',
   };
-  // nav = ['all', 'active', 'completed'];
+  nav = ['all', 'active', 'completed'];
 
   getMax() {
     return Math.max(...this.generatorId()) + 1;
@@ -87,26 +88,44 @@ class App extends Component {
   //   });
   // };
 
-  // activeChangeNav = (filter) => {
-  //   this.setState({
-  //     status: filter,
-  //   });
-  // };
+  activeChangeNav = (filter) => {
+    this.setState({
+      status: filter,
+    });
+  };
 
   render() {
-    const { name, todos } = this.state;
+    const { name, todos, status } = this.state;
     const {
-      addTodo, setValue, toggleCompleted, removeTodo,
+      addTodo,
+      setValue,
+      toggleCompleted,
+      removeTodo,
+      nav,
+      activeChangeNav,
     } = this;
-
+    let filterTodo;
+    if (status === 'active') {
+      filterTodo = todos.filter(todo => !todo.completed);
+    } else if (status === 'completed') {
+      filterTodo = todos.filter(todo => todo.completed);
+    } else {
+      filterTodo = todos;
+    }
     return (
       <TodoListTemplate
         form={<Form name={name} addTodo={addTodo} setValue={setValue} />}
       >
+        <TodoNavList
+          nav={nav}
+          status={status}
+          activeChangeNav={activeChangeNav}
+        />
         <TodoItemList
           todos={todos}
           toggleCompleted={toggleCompleted}
           removeTodo={removeTodo}
+          filterTodo={filterTodo}
         />
       </TodoListTemplate>
     );

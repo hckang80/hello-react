@@ -3,11 +3,11 @@ import TodoItem from './TodoItem';
 
 class TodoItemList extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.todos !== nextProps.todos;
+    return this.props.filterTodo !== nextProps.filterTodo;
   }
   render() {
-    const { todos, toggleCompleted, removeTodo } = this.props;
-    const todoList = todos.map(todo => (
+    const { filterTodo, toggleCompleted, removeTodo } = this.props;
+    const todoList = filterTodo.map(todo => (
       <TodoItem
         {...todo}
         key={todo.id}
