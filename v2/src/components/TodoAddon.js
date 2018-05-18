@@ -6,7 +6,7 @@ const TodoAddon = ({
   leftTodosLength,
   removeTodoCompleted,
 }) => (
-  <div>
+  <React.Fragment>
     <div className="col-xs-6">
       <label className="i-checks">
         <input
@@ -24,7 +24,7 @@ const TodoAddon = ({
       <strong>{leftTodosLength}</strong> item
       {leftTodosLength > 1 && 's'} left
     </div>
-  </div>
+  </React.Fragment>
 );
 
 export default TodoAddon;
