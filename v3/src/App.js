@@ -4,20 +4,33 @@ import Form from './components/Form';
 import TodoItemList from './components/TodoItemList';
 import TodoNavList from './components/TodoNavList';
 import TodoAddon from './components/TodoAddon';
+import * as service from './services/todo';
 
 import './App.css';
 
 class App extends Component {
   state = {
     name: '',
-    todos: [
-      { id: 0, content: 'HTML', completed: false },
-      { id: 1, content: 'CSS', completed: true },
-      { id: 2, content: 'Javascript', completed: false },
-    ],
-    status: 'all',
+    todos: [],
   };
   nav = ['all', 'active', 'completed'];
+
+  getTodos = async () => {
+    this.setState({
+      fetching: true,
+    });
+    const todos = await service.getTodos();
+
+    this.setState({
+      todos: todos.data,
+      status: 'all',
+      fetching: false,
+    });
+  };
+
+  componentDidMount() {
+    this.getTodos();
+  }
 
   getMax() {
     return Math.max(...this.generatorId()) + 1;
@@ -106,7 +119,9 @@ class App extends Component {
   }
 
   render() {
-    const { name, todos, status } = this.state;
+    const {
+      fetching, name, todos, status,
+    } = this.state;
     const {
       addTodo,
       setValue,
