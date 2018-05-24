@@ -23,17 +23,18 @@ class App extends Component {
       // const todos = await Promise.all([
       //   service.getTodos(),
       // ]);
-      const todos = await service.getTodos();
+      const { data } = await service.getTodos();
+      console.log('[GET]\n', data);
       this.setState({
-        todos: todos.data,
+        todos: data,
         status: 'all',
         fetching: false,
       });
-    } catch (e) {
+    } catch (err) {
       this.setState({
         fetching: false,
       });
-      console.log('error occurred', e);
+      console.log('error occurred', err);
     }
   };
 
@@ -55,19 +56,71 @@ class App extends Component {
     const { todos } = this.state;
     return todos.length ? todos.map(todo => todo.id) : [0];
   }
-
-  addTodo = (e) => {
+  addTodo = async (e) => {
     if (e.key === 'Enter') {
-      const { todos } = this.state;
       this.setState({
-        todos: [
-          { id: this.getMax(), content: e.target.value, completed: false },
-          ...todos,
-        ],
-        name: '',
+        fetching: true,
       });
+      try {
+        const { todos } = this.state;
+        const { data } = await service.addTodo(this.getMax(), e.target.value);
+        console.log('[ADD]\n', data);
+        this.setState({
+          todos: [
+            { id: data.id, content: data.content, completed: false },
+            ...todos,
+          ],
+          name: '',
+          fetching: false,
+        });
+      } catch (err) {
+        this.setState({
+          fetching: false,
+        });
+        console.log('error occurred', err);
+      }
     }
+    // const payload = { id: this.getMax(), content, completed: false };
+    // axios.post('/todos', payload) // payload: { id, content, completed }
+    //   .then(({ data }) => {
+    //     console.log('[ADD]\n', data);
+    //     // getTodos();
+    //   })
+    //   .catch(err => console.log(err));
   };
+
+  // addTodo = async () => {
+  //   this.setState({
+  //     fetching: true,
+  //   });
+  //   try {
+  //     // const todos = await Promise.all([
+  //     //   service.getTodos(),
+  //     // ]);
+  //     const todos = await service.addTodo();
+  //     this.setState({
+  //       todos: todos.data,
+  //       status: 'all',
+  //       fetching: false,
+  //     });
+  //   } catch (e) {
+  //     this.setState({
+  //       fetching: false,
+  //     });
+  //     console.log('error occurred', e);
+  //   }
+
+  //   if (e.key === 'Enter') {
+  //     const { todos } = this.state;
+  //     this.setState({
+  //       todos: [
+  //         { id: this.getMax(), content: e.target.value, completed: false },
+  //         ...todos,
+  //       ],
+  //       name: '',
+  //     });
+  //   }
+  // };
 
   toggleCompleted = (id) => {
     const { todos } = this.state;
