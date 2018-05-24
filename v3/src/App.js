@@ -19,13 +19,22 @@ class App extends Component {
     this.setState({
       fetching: true,
     });
-    const todos = await service.getTodos();
-
-    this.setState({
-      todos: todos.data,
-      status: 'all',
-      fetching: false,
-    });
+    try {
+      // const todos = await Promise.all([
+      //   service.getTodos(),
+      // ]);
+      const todos = await service.getTodos();
+      this.setState({
+        todos: todos.data,
+        status: 'all',
+        fetching: false,
+      });
+    } catch (e) {
+      this.setState({
+        fetching: false,
+      });
+      console.log('error occurred', e);
+    }
   };
 
   componentDidMount() {
