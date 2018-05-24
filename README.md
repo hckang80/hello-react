@@ -6,8 +6,8 @@ const ReactTodoList {
     getTodos: get ('/todos'),
     addTodo: post ('/todos', payload) // payload: { id, content, completed }
     delTodo: delete (`/todos/id/${id}`),
-    toggleTodoComplete: patch (`/todos/id/${id}`, { completed: !completed }), // payload: { completed }
-    toggleAllComplete: patch ('/todos', { completed: obj.checked }), // payload: { completed }
+    toggleTodoComplete: patch (`/todos/id/${id}`, payload), // payload: { completed }
+    toggleAllComplete: patch ('/todos', payload), // payload: { completed }
     clearCompleted: delete ('/todos/completed')
   },
   V4: Redux(Task scheduled)
