@@ -5,8 +5,8 @@ const ReactTodoList {
   V3: HttpClient(working now) {
     getTodos: get ('/todos'),
     addTodo: post ('/todos', payload) // payload: { id, content, completed }
-    delTodo: delete (`/todos/id/${id}`),
-    toggleTodoComplete: patch (`/todos/id/${id}`, payload), // payload: { completed }
+    delTodo: delete (`/todos/id/:id`),
+    toggleTodoComplete: patch (`/todos/id/:id`, payload), // payload: { completed }
     toggleAllComplete: patch ('/todos', payload), // payload: { completed }
     clearCompleted: delete ('/todos/completed')
   },
