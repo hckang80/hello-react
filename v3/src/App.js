@@ -106,11 +106,24 @@ class App extends Component {
     }
   };
 
-  removeTodo = (id) => {
-    const { todos } = this.state;
+  removeTodo = async (id) => {
     this.setState({
-      todos: todos.filter(todo => todo.id !== id),
+      fetching: true,
     });
+    try {
+      const { todos } = this.state;
+      const { data } = await service.removeTodo(id);
+      console.log('[DELETE]\n', data);
+      this.setState({
+        todos: todos.filter(todo => todo.id !== id),
+        fetching: false,
+      });
+    } catch (err) {
+      this.setState({
+        fetching: false,
+      });
+      console.log('error occurred', err);
+    }
   };
 
   toggleCompletedAll = (completed) => {
