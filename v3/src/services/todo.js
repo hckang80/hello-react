@@ -20,3 +20,5 @@ export const toggleCompletedAll = (completed) => {
   const payload = { completed };
   return axios.patch(`${url}/todos`, payload);
 };
+
+export const removeTodoCompleted = () => axios.delete(`${url}/todos/completed`);

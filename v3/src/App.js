@@ -146,6 +146,26 @@ class App extends Component {
     }
   };
 
+  removeTodoCompleted = async () => {
+    this.setState({
+      fetching: true,
+    });
+    try {
+      const { todos } = this.state;
+      const { data } = await service.removeTodoCompleted();
+      console.log('[removeTodoCompleted]\n', data);
+      this.setState({
+        todos: todos.filter(todo => !todo.completed),
+        fetching: false,
+      });
+    } catch (err) {
+      this.setState({
+        fetching: false,
+      });
+      console.log('error occurred', err);
+    }
+  };
+
   completedTodosLength() {
     const { todos } = this.state;
     return todos.filter(todo => todo.completed).length;
@@ -155,14 +175,6 @@ class App extends Component {
     const { todos } = this.state;
     return todos.filter(todo => !todo.completed).length;
   }
-
-  removeTodoCompleted = () => {
-    if (!this.completedTodosLength()) return;
-    const { todos } = this.state;
-    this.setState({
-      todos: todos.filter(todo => !todo.completed),
-    });
-  };
 
   activeChangeNav = (filter) => {
     this.setState({
