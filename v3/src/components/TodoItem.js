@@ -22,7 +22,7 @@ class TodoItem extends Component {
               type="checkbox"
               checked={completed}
               onChange={() => {}}
-              onClick={() => toggleCompleted(id)}
+              onClick={() => toggleCompleted(id, completed)}
             />
             <i />
             <span>{content}</span>
