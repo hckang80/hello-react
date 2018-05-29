@@ -24,7 +24,7 @@ class App extends Component {
       //   service.getTodos(),
       // ]);
       const { data } = await service.getTodos();
-      console.log('[GET]\n', data);
+      // console.log('[GET]\n', data);
       this.setState({
         todos: data,
         status: 'all',
@@ -65,7 +65,7 @@ class App extends Component {
       try {
         const { todos } = this.state;
         const { data } = await service.addTodo(this.getMax(), e.target.value);
-        console.log('[ADD]\n', data);
+        // console.log('[ADD]\n', data);
         this.setState({
           todos: [
             { id: data.id, content: data.content, completed: false },
@@ -89,8 +89,8 @@ class App extends Component {
     });
     try {
       const { todos } = this.state;
-      const { data } = await service.toggleCompleted(id, completed);
-      console.log('[toggleCompleted]\n', data);
+      await service.toggleCompleted(id, completed);
+      // console.log('[toggleCompleted]\n', data);
       this.setState({
         todos: todos.map(todo =>
           (id === todo.id
@@ -112,8 +112,8 @@ class App extends Component {
     });
     try {
       const { todos } = this.state;
-      const { data } = await service.removeTodo(id);
-      console.log('[DELETE]\n', data);
+      await service.removeTodo(id);
+      // console.log('[DELETE]\n', data);
       this.setState({
         todos: todos.filter(todo => todo.id !== id),
         fetching: false,
@@ -132,8 +132,8 @@ class App extends Component {
     });
     try {
       const { todos } = this.state;
-      const { data } = await service.toggleCompletedAll(completed);
-      console.log('[toggleCompletedAll]\n', data);
+      await service.toggleCompletedAll(completed);
+      // console.log('[toggleCompletedAll]\n', data);
       this.setState({
         todos: todos.map(todo => Object.assign({}, todo, { completed })),
         fetching: false,
@@ -152,8 +152,8 @@ class App extends Component {
     });
     try {
       const { todos } = this.state;
-      const { data } = await service.removeTodoCompleted();
-      console.log('[removeTodoCompleted]\n', data);
+      await service.removeTodoCompleted();
+      // console.log('[removeTodoCompleted]\n', data);
       this.setState({
         todos: todos.filter(todo => !todo.completed),
         fetching: false,
