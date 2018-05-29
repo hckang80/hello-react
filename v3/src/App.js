@@ -126,11 +126,24 @@ class App extends Component {
     }
   };
 
-  toggleCompletedAll = (completed) => {
-    const { todos } = this.state;
+  toggleCompletedAll = async (completed) => {
     this.setState({
-      todos: todos.map(todo => Object.assign({}, todo, { completed })),
+      fetching: true,
     });
+    try {
+      const { todos } = this.state;
+      const { data } = await service.toggleCompletedAll(completed);
+      console.log('[toggleCompletedAll]\n', data);
+      this.setState({
+        todos: todos.map(todo => Object.assign({}, todo, { completed })),
+        fetching: false,
+      });
+    } catch (err) {
+      this.setState({
+        fetching: false,
+      });
+      console.log('error occurred', err);
+    }
   };
 
   completedTodosLength() {
