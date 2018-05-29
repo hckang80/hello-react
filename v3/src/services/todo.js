@@ -8,3 +8,8 @@ export const addTodo = (id, content) => {
   const payload = { id, content, completed: false };
   return axios.post(`${url}/todos`, payload);
 };
+
+export const toggleCompleted = (id, completed) => {
+  const payload = { completed: !completed };
+  return axios.patch(`${url}/todos/id/${id}`, payload);
+};
