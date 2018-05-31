@@ -2,7 +2,7 @@
 const ReactTodoList {
   V1: 'One Component',
   V2: 'Component separation',
-  V3: ['HttpClient(working now)', 
+  V3: ['HttpClient',
         {
           getTodos: get ('/todos'),
           addTodo: post ('/todos', payload) // payload: { id, content, completed }
@@ -13,6 +13,6 @@ const ReactTodoList {
         }
       ]
   },
-  V4: Redux(Task scheduled)
+  V4: TypeScript & Redux(working now)
 }
 ```
